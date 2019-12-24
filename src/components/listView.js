@@ -1,31 +1,72 @@
-import React, { useContext } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import Card from "react-bootstrap/Card"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import ColorContext from "./colorContext"
-const ListView = () => {
+import { NavLink } from "react-router-dom"
+import "./css/pageNumber.css"
+const ListView = (props) => {
 
-    // retrieve allColors from context provider in App Component
-    var allColors = useContext(ColorContext)
+    // retrieve filteredColors from context provider in App Component
+    var filteredColors = useContext(ColorContext)
 
-    console.log(allColors)
-    const card = (<Col style={{ margin: "15px" }} xs={11} md={3}>
-        <Card >
-            <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
-    </Card.Text>
-            </Card.Body>
-        </Card>
-    </Col>)
+    //pagination setup
+    var itemsPerPage = 9;
+    var numberOfPages = Math.ceil(filteredColors.length / itemsPerPage)
+    const pageNumberArray = Array.from(Array(numberOfPages).keys())
+
+    // slice which is displayed
+    const [slicedFilteredColors, setSlicedFilteredColors] = useState(filteredColors.slice(0, itemsPerPage))
+
+    // to fire when changing group
+    useEffect(() => {
+        updatePage()
+    }, [filteredColors])
+
+    const handleChangePage = (event) => { // slice color array to fit page
+        const number = Number(event.target.value)
+        setSlicedFilteredColors(filteredColors.slice(number * itemsPerPage, (number + 1) * itemsPerPage))
+    }
+    // for resetting when changing group
+    const updatePage = () => {
+        setSlicedFilteredColors(filteredColors.slice(0, 9))
+    }
+
+
+    //create a page numbers array
+    const pageNumbers = pageNumberArray.map((d, i) => {
+        return (
+            <Col style={{ margin: "0px", padding: "0px" }} key={i} xs={1}>
+                <button className="pageNumber" onClick={handleChangePage} value={d}> {d + 1}</button>
+            </Col>
+        )
+    })
+
+
+    const cards = slicedFilteredColors.map((d, i) => {
+        return (
+            <Col key={i} style={{ fontFamily: "Source Serif Pro, serif", marginTop: "10px", marginBottom: "10px" }} xs={11} md={4} >
+                <NavLink style={{ textDecoration: "none", color: "inherit" }} to={`/colors/${d.substr(1)}`}>
+                    <Card style={{ height: "200px", backgroundColor: `${d}` }}>
+                        <Card.Body>
+                            <Card.Text style={{ backgroundColor: "white" }} >{d}</Card.Text>
+                        </Card.Body>
+                    </Card>
+                </NavLink>
+            </Col >
+        )
+    }
+    )
 
 
 
-    return (<div style={{ backgroundColor: "red", margin: "0px", padding: "0px" }}>
-        <Row style={{ margin: "0px", padding: "0px" }}>        {card}
+
+    return (<div style={{ height: "100%", margin: "0px", padding: "0px" }}>
+        <Row style={{ margin: "0px", padding: "0px" }}>
+            {cards}
         </Row>
+        <Row style={{ margin: "0px", padding: "0px" }} >{pageNumbers}</Row>
+
     </div>)
 }
 export default ListView;

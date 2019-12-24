@@ -2,14 +2,19 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { getAllColors } from "../firebase/db"
 
+// Colors from https://gist.github.com/kawanet/a880c83f06d6baf742e45ac9ac52af96#file-material-colors-json
+
+
 export const useGetColors = (colorGrouper, searchIdentifier) => {
     //initiallize loading and colors object
     const [loading, setLoading] = useState(true)
     const [allColors, setAllColors] = useState({})
+    const [allColorArray, setAllColorArray] = useState([])
+    const [filteredColors, setFilteredColors] = useState({})
 
     useEffect(() => {
-
         setLoading(true)
+
         const fetchColors = async () => {
             getAllColors().then(res => {
                 setAllColors(res.val())
@@ -22,8 +27,7 @@ export const useGetColors = (colorGrouper, searchIdentifier) => {
 
 
     useEffect(() => { // runs when color colorGrouper or searchIdentifier changes
-
-
+        setLoading(true)
         if (Object.keys(allColors).length > 0) { // don't run initially before allColors is populated.  Only run on grouper and identifier changes
             sortColors(allColors, colorGrouper, searchIdentifier)
         }
@@ -37,18 +41,33 @@ export const useGetColors = (colorGrouper, searchIdentifier) => {
 
         //grouper
         if (Object.keys(allColors).length > 0) {
-            if (colorGrouper !== "" && colorGrouper !== "undefined") {
+            if (colorGrouper !== "" && colorGrouper !== "undefined") {  // is it sorted by a group
                 //extract colors from group
-            } else {
-                let tempAllColors = [...allColors].map(colorGroup => {
-                    return (colorGroup.children)
-                })
-                tempAllColors = [].concat.apply([], tempAllColors);
+                let groupedColors = Object.values(allColors[colorGrouper])
 
-                setAllColors(tempAllColors)
+                if (searchIdentifier !== "") {
+                    groupedColors = groupedColors.filter(hex => { return (hex.includes(searchIdentifier)) }) // filter for those that contain search identifier
+
+                    console.log('running groupedColors:', groupedColors)
+                }
+
+                setFilteredColors(groupedColors)
+            } else {
+                let tempFilteredColors = Object.values(allColors).map(colorGroupObject => { return (Object.values(colorGroupObject)) })
+
+                tempFilteredColors = [].concat.apply([], tempFilteredColors);
+
+                if (searchIdentifier !== "") {
+                    tempFilteredColors = tempFilteredColors.filter(hex => { return (hex.includes(searchIdentifier)) }) // filter for those that contain search identifier
+                    console.log('running tempFilteredColors:', tempFilteredColors)
+                }
+
+                setFilteredColors(tempFilteredColors)
+                setAllColorArray(tempFilteredColors)
                 //  flatten all colors out of group objects
             }
         }
+
 
         setLoading(false)
     }
@@ -56,5 +75,5 @@ export const useGetColors = (colorGrouper, searchIdentifier) => {
 
 
 
-    return [allColors, loading]
+    return [allColors, allColorArray, filteredColors, loading]
 }
