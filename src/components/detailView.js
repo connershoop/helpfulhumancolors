@@ -50,7 +50,12 @@ const DetailView = (props) => {
     //create an array to map through
     const shadesArray = [-40, -20, 0, 20, 40]
     const shadeCards = shadesArray.map((d, i) => {
-        let color = LightenDarkenColor("#" + props.match.params.hexColor, d)
+        let color = LightenDarkenColor(props.match.params.hexColor, d)
+        while (color.length < 6) {
+            color = "0" + color
+        }
+
+        color = "#" + color;
         return (
             <Col xs={2} >
                 <Card style={{ height: "100px", backgroundColor: `${color}` }}>
