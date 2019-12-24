@@ -46,9 +46,12 @@ export const useGetColors = (colorGrouper, searchIdentifier) => {
                 let groupedColors = Object.values(allColors[colorGrouper])
 
                 if (searchIdentifier !== "") {
-                    groupedColors = groupedColors.filter(hex => { return (hex.includes(searchIdentifier)) }) // filter for those that contain search identifier
-
-                    console.log('running groupedColors:', groupedColors)
+                    console.log("sorts")
+                    groupedColors = groupedColors
+                        .filter(hex => { return (hex.includes(searchIdentifier)) })     // filter for those that contain search identifier
+                        .sort((a, b) => {
+                            return (a.indexOf(searchIdentifier) - b.indexOf(searchIdentifier))
+                        }) //order by search identifier
                 }
 
                 setFilteredColors(groupedColors)
@@ -58,8 +61,11 @@ export const useGetColors = (colorGrouper, searchIdentifier) => {
                 tempFilteredColors = [].concat.apply([], tempFilteredColors);
 
                 if (searchIdentifier !== "") {
-                    tempFilteredColors = tempFilteredColors.filter(hex => { return (hex.includes(searchIdentifier)) }) // filter for those that contain search identifier
-                    console.log('running tempFilteredColors:', tempFilteredColors)
+                    tempFilteredColors = tempFilteredColors
+                        .filter(hex => { return (hex.includes(searchIdentifier)) })     // filter for those that contain search identifier
+                        .sort((a, b) => {
+                            return (a.indexOf(searchIdentifier) - b.indexOf(searchIdentifier))
+                        }) //order by search identifier
                 }
 
                 setFilteredColors(tempFilteredColors)

@@ -17,13 +17,13 @@ const Navbar = (props) => {
 
 
     return (<div style={{ flexDirection: "horizontal", backgroundColor: "#363C3C", height: "100px", width: "100%" }}>
-        <Row style={{ margin: "0px", padding: "0px" }}>
+        <Row className="justify-content-space-between" style={{ margin: "0px", padding: "0px" }}>
             <Col xs={2}>
                 <NavLink style={{ textDecoration: "none", color: "inherit" }} to="/" >
                     <img alt="H" style={{ margin: "20px", padding: "0px" }} align="left" src={logo} />
                 </NavLink>
             </Col>
-            <Col xs={10}>
+            <Col xs={{ span: 8, offset: 2 }}>
                 <Form onSubmit={handleSearch} /*  not proud to resort to this push */ >
                     <Form.Row>
                         <InputGroup style={{ width: "95%", margin: "20px", align: "right" }} className="mb-3">

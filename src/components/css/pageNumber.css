@@ -18,7 +18,7 @@
 }
 
 
-@media all and (max-width:30em){
+@media all and (max-width:440px){
      .pageNumber{
         display:block;
         margin:0.2em auto;

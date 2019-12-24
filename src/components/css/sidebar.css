@@ -17,7 +17,7 @@
 }
 
 
-@media all and (max-width:30em){
+@media all and (max-width:440px){
      .button{
      display:block;
      margin:0.2em auto;

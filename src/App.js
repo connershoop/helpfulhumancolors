@@ -49,7 +49,7 @@ function App() {
           <Navbar setSearchIdentifier={setSearchIdentifier} searchIdentifier={searchIdentifier} handleSearchChange={handleSearchChange} />
         </Row>
         <Row style={{ margin: "0px", padding: "0px" }}>
-          <Col xs={2} style={{ margin: "0px", padding: "0px" }}>
+          <Col sm={0} lg={2} style={{ margin: "0px", padding: "0px" }}>
             {loading ? <div>...loading</div> :
               <Sidebar allColorArray={allColorArray}
                 handleChangeColorGrouper={handleChangeColorGrouper}
@@ -57,7 +57,7 @@ function App() {
             }
           </Col>
           <Col style={{ margin: "0px", padding: "0px" }}
-            xs={10}>
+            sm={12} lg={10}>
             {loading ? <div>...loading</div> :
               <div>
                 <Route exact path='/' component={ListView} />
