@@ -61,7 +61,7 @@ const Sidebar = (props) => {
 
 
     const content = biggerThan1000 ?
-        (<Row style={{ margin: "0px", padding: "0px" }}>
+        (<Row style={{ overflowY: "auto", maxHeight: "700px", margin: "0px", marginBottom: "20px", padding: "0px" }}>
             <Col xs={12} >
                 {randomColorButton}
             </Col>
@@ -87,7 +87,7 @@ const Sidebar = (props) => {
             </button>
             <Collapse in={open}>
                 <div id="example-collapse-text">
-                    <Row style={{ margin: "0px", padding: "0px" }}>
+                    <Row style={{ overflowY: "auto", maxHeight: "300px", margin: "0px", padding: "0px" }}>
                         <Col xs={12} >
                             {randomColorButton}
                         </Col>
@@ -115,7 +115,7 @@ const Sidebar = (props) => {
 
     // add collapsable component
     return (
-        <div style={{ backgroundColor: "grey", minHeight: "100%", margin: "0px" }}>
+        <div style={{ backgroundColor: "grey", overflow: "auto", height: "100%", margin: "0px" }}>
             {content}
         </div>)
 }
