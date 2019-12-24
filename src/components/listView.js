@@ -44,7 +44,7 @@ const ListView = (props) => {
     //create a page numbers array
     const pageNumbers = slicedPageNums.map((d, i) => {
         return (
-            <Col style={{ margin: "0px", padding: "0px" }} key={i} xs={1}>
+            <Col style={{ margin: "0px", padding: "0px" }} key={i} xs={2}>
                 <button style={{ fontWeight: "bold" }} className="pageNumber" onClick={handleChangePage} value={d}> {d + 1}</button>
             </Col>
         )

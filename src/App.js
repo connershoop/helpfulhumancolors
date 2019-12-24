@@ -37,7 +37,7 @@ function App() {
 
 
   const handleSearchChange = (event) => {
-    setSearchIdentifier(event.target.value)
+    setSearchIdentifier(event.target.value.toLowerCase())
   }
 
   console.log("searchIdentifier", searchIdentifier)
